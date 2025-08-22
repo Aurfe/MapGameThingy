@@ -2,16 +2,15 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public class ProvinceUI : MonoBehaviour, IUIManager
+public class ProvinceUI : MonoBehaviour, IManageable
 {
     [SerializeField] GameObject provinceUIContainer;
 
-    [Header("Province UI Elements")]
-    [SerializeField] TextMeshProUGUI provinceNameText;
-    [SerializeField] TextMeshProUGUI populationText;
-    [SerializeField] TextMeshProUGUI gdpText;
-    [SerializeField] TextMeshProUGUI capitalText;
-    [SerializeField] TextMeshProUGUI climateText;
+    [SerializeField] TextMeshProUGUI provinceNameTag;
+
+    [SerializeField] Transform siteListContent;
+
+    [SerializeField] Transform siteItemPrefab;
 
     public void Selected()
     {
@@ -26,18 +25,29 @@ public class ProvinceUI : MonoBehaviour, IUIManager
 
     private void SetUI()
     {
-        Province selectedProvince = ProvinceManager.Instance.GetSelectedProvince();
-        if (selectedProvince == null)
+        provinceNameTag.text = ProvinceManager.Instance.GetSelectedProvince().GetProvinceName();
+        GenerateSiteListUI();
+    }
+
+    private void GenerateSiteListUI()
+    {
+        ClearSiteListUI();
+
+        Province province = ProvinceManager.Instance.GetSelectedProvince();
+
+        foreach (ConcreteSite site in province.GetSiteList())
         {
-            Debug.LogWarning("No province selected, cannot set UI.");
-            return;
+            Transform siteItem = Instantiate(siteItemPrefab, siteListContent);
+
+            siteItem.gameObject.GetComponent<SiteUI>().SetSiteUI(site);
         }
+    }
 
-        provinceNameText.text = selectedProvince.provinceName;
-
-        populationText.text = selectedProvince.population.ToString("N0");
-        gdpText.text = "$" + selectedProvince.gdp.ToString("N0") + "b";
-        capitalText.text = selectedProvince.provinceCapital;
-        climateText.text = selectedProvince.climateType;
+    private void ClearSiteListUI()
+    {
+        foreach (Transform child in siteListContent)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }

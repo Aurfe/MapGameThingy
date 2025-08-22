@@ -91,7 +91,6 @@ public class ProvinceManager : SerializedMonoBehaviour
 
     public void SetSelectedProvince(Province province)
     {
-        Debug.Log("Setting selected province: " + (province != null ? province.provinceName : "null"));
         selectedProvince = province;
         OnProvinceSelected?.Invoke(this, EventArgs.Empty);
     }

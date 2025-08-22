@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IUIManager
+public interface IManageable
 {
     public void Selected();
 

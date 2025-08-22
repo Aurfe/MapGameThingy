@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
     private CountryUI countryUI;
     private ProvinceUI provinceUI;
 
-    List<IUIManager> uiManagers;
+    List<IManageable> uiManagers;
 
     private void Awake()
     {
@@ -22,8 +22,10 @@ public class UIManager : MonoBehaviour
         countryUI = transform.Find("CountryUI Manager").GetComponent<CountryUI>();
         provinceUI = transform.Find("ProvinceUI Manager").GetComponent<ProvinceUI>();
 
-        uiManagers = new List<IUIManager> { countryUI, provinceUI };
+        uiManagers = new List<IManageable> { countryUI, provinceUI };
     }
+
+    //Get the current mapmode from the Mapmode manager instance
     private void SelectUIManager()
     {
         MapMode mapMode = MapModeManager.Instance.GetCurrentMapMode();
@@ -45,9 +47,10 @@ public class UIManager : MonoBehaviour
             uiManager.Deselected();
         }
     }
+
+
     void ProvinceManager_OnProvinceSelected(object sender, EventArgs e)
     {
-        Debug.Log("Province selected, updating UI managers.");
         DeselectAllUIManagers();
         SelectUIManager();
     }

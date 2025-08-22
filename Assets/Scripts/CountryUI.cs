@@ -2,7 +2,7 @@ using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 
-public class CountryUI : MonoBehaviour, IUIManager
+public class CountryUI : MonoBehaviour, IManageable
 {
     [SerializeField] private GameObject countryUIContainer;
 

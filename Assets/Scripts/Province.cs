@@ -7,19 +7,22 @@ public class Province : MonoBehaviour
     private void Awake()
     {
         borderPixelCoordinates = new Dictionary<Province, List<Vector2Int>>();
+        provinceSites = new List<ConcreteSite>();
+        provinceName = gameObject.name;
     }
 
-    public string provinceName;
+    private string provinceName;
 
-    public int population;
+    public Country country;
 
-    public float gdp;
+    private List<ConcreteSite> provinceSites;
 
-    public string provinceCapital;
-
-    public string climateType;
-
-    public Country country; // Reference to the Country this Province belongs to
+    private void Start()
+    {
+        foreach (Transform child in transform)
+            if (child.TryGetComponent<ConcreteSite>(out var site))
+                provinceSites.Add(site);
+    }
 
     public List<Vector2Int> pixelCoordinates; // List of pixel coordinates representing the province on the map
 
@@ -52,5 +55,15 @@ public class Province : MonoBehaviour
         }
 
         borderMapTexture.Apply(); // Apply changes to the texture
+    }
+
+    public string GetProvinceName()
+    {
+        return provinceName;
+    }
+
+    public List<ConcreteSite> GetSiteList()
+    {
+        return provinceSites;
     }
 }
