@@ -17,8 +17,7 @@ public class Market : SerializedMonoBehaviour
     public void Start()
     {
         //Subscribe to market tick events
-        MarketManager.instance.OnMarketProductionTick += MarketManager_OnMarketProductionTick;
-        MarketManager.instance.OnMarketConsumptionTick += MarketManager_OnMarketConsumptionTick;
+        MarketManager.instance.OnMarketUpdate += MarketManager_OnMarketUpdate;
 
         marketUI = GameObject.Find("MarketUI Manager").GetComponent<MarketUI>();
 
@@ -85,9 +84,16 @@ public class Market : SerializedMonoBehaviour
         }
     }
 
+    private void MarketTick()
+    {
+        ConsumeGoods();
+        ProduceGoods();
+        UpdateMarketUI();
+    }
+
     //Iterate through each province and their sites
     //Call the ProduceGood method for each site
-    public void ProduceGoods()
+    private void ProduceGoods()
     {
         foreach(Province province in provincesInMarket)
         {
@@ -98,13 +104,13 @@ public class Market : SerializedMonoBehaviour
         }
 
         SortGoodLists();
-        marketUI.GenerateGoodList(GetAllGoodsInMarket());
+        UpdateMarketUI();
         ProvinceUI.Instance.GenerateLists();
     }
 
 
     //Iterate through each pop in the market's provinces and have them consume goods
-    public void ConsumeGoods()
+    private void ConsumeGoods()
     {
         List<Pop> pops = GetAllPops();
 
@@ -132,7 +138,7 @@ public class Market : SerializedMonoBehaviour
             }
         }
 
-        marketUI.GenerateGoodList(GetAllGoodsInMarket());
+        UpdateMarketUI();
         ProvinceUI.Instance.GenerateLists();
     }
 
@@ -144,6 +150,15 @@ public class Market : SerializedMonoBehaviour
         }
 
         goodsInMarket[goodToAdd.GetGoodType()].Add(goodToAdd);
+    }
+
+    public void RemoveGoodFromMarket(ConcreteGood goodToRemove)
+    {
+        if (goodToRemove == null)
+        {
+            return; // No good to remove
+        }
+        goodsInMarket[goodToRemove.GetGoodType()].Remove(goodToRemove);
     }
 
     //Get a list of all pops in the market's provinces
@@ -172,7 +187,7 @@ public class Market : SerializedMonoBehaviour
         }
         else if (goodTypeName == "All")
         {
-            marketUI.GenerateGoodList(GetAllGoodsInMarket());
+            UpdateMarketUI();
         }
         else
         {
@@ -191,16 +206,22 @@ public class Market : SerializedMonoBehaviour
 
     public void UpdateMarketUI()
     {
+        marketUI.SetTotalMarketWealth(GetTotalPopWealth());
         marketUI.GenerateGoodList(GetAllGoodsInMarket());
     }
-
-    private void MarketManager_OnMarketProductionTick(object sender, EventArgs e)
+    private void MarketManager_OnMarketUpdate(object sender, EventArgs e)
     {
-        ProduceGoods();
+        MarketTick();
     }
 
-    private void MarketManager_OnMarketConsumptionTick(object sender, EventArgs e)
+    public int GetTotalPopWealth()
     {
-        ConsumeGoods();
+        int totalWealth = 0;
+        List<Pop> pops = GetAllPops();
+        foreach(Pop pop in pops)
+        {
+            totalWealth += pop.GetMoney();
+        }
+        return totalWealth;
     }
 }

@@ -94,3 +94,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popName: Farmer
+  subsistenceMode: 1

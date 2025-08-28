@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class MarketManager : MonoBehaviour
 {
-    public event System.EventHandler OnMarketConsumptionTick;
-    public event System.EventHandler OnMarketProductionTick;
+    public event System.EventHandler OnMarketUpdate;
 
     public static MarketManager instance { get; private set; }
 
@@ -18,13 +17,8 @@ public class MarketManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    public void TriggerMarketProductionTick()
+    public void TriggerMarketUpdate()
     {
-        OnMarketProductionTick?.Invoke(this, System.EventArgs.Empty);
-    }
-    public void TriggerMarketConsumptionTick()
-    {
-        OnMarketConsumptionTick?.Invoke(this, System.EventArgs.Empty);
+        OnMarketUpdate?.Invoke(this, System.EventArgs.Empty);
     }
 }

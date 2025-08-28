@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   siteName: Blacksmiths
   siteData: {fileID: 11400000, guid: 2687f01c198eb7643abfd7e84609d47c, type: 2}
+  baseProductionBonus: 0
 --- !u!1 &7457662536459500284
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,3 +93,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popName: Blacksmith
+  subsistenceMode: 1

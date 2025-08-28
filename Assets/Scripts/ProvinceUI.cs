@@ -14,13 +14,13 @@ public class ProvinceUI : MonoBehaviour, IManageable
     int uiMenuIndex = 0;
 
     [SerializeField] TextMeshProUGUI provinceNameTag;
+    [SerializeField] TextMeshProUGUI provinceWealth;
+    [SerializeField] TextMeshProUGUI provincePopulation;
 
     [SerializeField] Transform siteListContent;
-
     [SerializeField] Transform siteItemPrefab;
 
     [SerializeField] Transform popListContent;
-
     [SerializeField] Transform popItemPrefab;
 
     void Awake()
@@ -38,7 +38,7 @@ public class ProvinceUI : MonoBehaviour, IManageable
     public void Selected()
     {
         provinceUIContainer.SetActive(true);
-        SetUI();
+        SetUI(ProvinceManager.Instance.GetSelectedProvince());
     }
 
     public void Deselected()
@@ -46,9 +46,12 @@ public class ProvinceUI : MonoBehaviour, IManageable
         provinceUIContainer.SetActive(false);
     }
 
-    private void SetUI()
+    private void SetUI(Province province)
     {
-        provinceNameTag.text = ProvinceManager.Instance.GetSelectedProvince().GetProvinceName();
+
+        provinceNameTag.text = province.GetProvinceName();
+        provinceWealth.text = "Wealth: " + province.GetTotalWealth().ToString();
+        provincePopulation.text = "Population: " + province.GetTotalPopulation().ToString();
         GenerateLists();
     }
 

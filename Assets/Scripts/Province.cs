@@ -17,6 +17,9 @@ public class Province : MonoBehaviour
     private List<ConcreteSite> provinceSites = new List<ConcreteSite>();
     private List<Pop> provincePops = new List<Pop>();
 
+    int totalPopulation = 0;
+    int totalWealth = 0;
+
     private void Start()
     {
         foreach (Transform child in transform)
@@ -77,5 +80,24 @@ public class Province : MonoBehaviour
     public List<Pop> GetPopList()
     {
         return provincePops;
+    }
+
+    public int GetTotalPopulation()
+    {
+        totalPopulation = 0;
+        foreach (Pop pop in provincePops)
+        {
+            totalPopulation += 1; // For now, each pop counts as 1
+        }
+        return totalPopulation;
+    }
+    public int GetTotalWealth()
+    {
+        totalWealth = 0;
+        foreach (Pop pop in provincePops)
+        {
+            totalWealth += pop.GetMoney();
+        }
+        return totalWealth;
     }
 }

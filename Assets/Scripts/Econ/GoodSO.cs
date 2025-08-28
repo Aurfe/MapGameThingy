@@ -23,4 +23,5 @@ public class GoodSO : ScriptableObject
     public bool IsProductionGood() => isProductionGood;
     public int GetConsumptionUses() => consumptionUses;
     public bool IsEssentialGood() => isEssentialGood;
+    public string GetGoodName() => goodName;
 }

@@ -2,17 +2,22 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Pop : MonoBehaviour
 {
     [SerializeField]
     string popName;
 
-    int money = 20;
+    int popMoney = 20;
 
     int costOfLiving = 1; // Money spent on essentials each consumption cycle
 
     Dictionary<GoodSO, ConcreteGood> goodsOwned = new Dictionary<GoodSO, ConcreteGood>();
+
+    [SerializeField]
+    bool subsistenceMode; // If true, pop will take a good they produce
+    ConcreteGood subsistingGood; // The good a pop will put asside if in subsistence mode
 
     void Start()
     {
@@ -23,7 +28,7 @@ public class Pop : MonoBehaviour
         }
 
         // Subscribe to market consumption tick event
-        MarketManager.instance.OnMarketConsumptionTick += MarketManager_OnMarketConsumptionTick;
+        MarketManager.instance.OnMarketUpdate += MarketManager_OnMarketUpdate;
     }
 
     public string GetPopName()
@@ -34,23 +39,40 @@ public class Pop : MonoBehaviour
     // Gets the good from the market, deducts money from the pop, and adds money to the good's owner
     public bool PurchaseGood(ConcreteGood good)
     {
-        if (good.GetPrice() > money)
+        if (good.GetPrice() > popMoney)
             return false; // Cannot afford the good
 
         if (!good.GetGoodType().IsProductionGood())
             goodsOwned[good.GetGoodType()] = good; // Production goods are not stored
 
-        money -= good.GetPrice();
+        popMoney -= good.GetPrice();
 
         if (good.GetOwner() != null) // If the good has an owner, pay them
+        {
             good.GetOwner().IncreaseMoney(good.GetPrice());
+        }
 
         // If the good is essential or for production, add its price to the cost of living
         if (good.GetGoodType().IsEssentialGood() || good.GetGoodType().IsProductionGood())
         {
             costOfLiving += good.GetPrice();
         }
+
         return true;
+    }
+
+    public void AddSubsistenceGood(ConcreteGood good)
+    {
+        subsistingGood = good;
+    }
+
+    private void UseSubsistenceGood()
+    {
+        if (subsistingGood != null)
+        {
+            goodsOwned[subsistingGood.GetGoodType()] = subsistingGood;
+            subsistingGood = null;
+        }
     }
 
     public bool HasGood(GoodSO goodType)
@@ -70,16 +92,20 @@ public class Pop : MonoBehaviour
                 goodsOwned[key] = null;
             }
         }
+
+        // Slots the subsistence good if in subsistence mode
+        if (subsistenceMode)
+            UseSubsistenceGood();
     }
 
-    public int GetMoney() => money;
+    public int GetMoney() => popMoney;
+    public int GetCostOfLiving() => costOfLiving > 0 ? costOfLiving : 1;
+    public bool IsInSubsistenceMode() => subsistenceMode;
     public void IncreaseMoney(int money)
     {
-        money += money;
+        popMoney += money;
     }
-    public int GetCostOfLiving() => costOfLiving;
-
-    private void MarketManager_OnMarketConsumptionTick(object sender, EventArgs e)
+    private void MarketManager_OnMarketUpdate(object sender, EventArgs e)
     {
         costOfLiving = 0;
     }

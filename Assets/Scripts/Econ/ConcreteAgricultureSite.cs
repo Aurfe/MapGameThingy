@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class ConcreteAgricultureSite : ConcreteSite
 {
-    [SerializeField]
-    int landFertilityBonus = 1;
-
     protected override int CalculateProductionBonus()
     {
         int totalProductionBonus = base.CalculateProductionBonus();
