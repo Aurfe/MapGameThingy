@@ -4,10 +4,7 @@ using UnityEngine;
 public class SiteSO : ScriptableObject
 {
     [SerializeField]
-    string producedGood;
+    ProductionMethod productionMethod;
 
-    public string GetProducedGood()
-    {
-        return producedGood;
-    }
+    public ProductionMethod GetProductionMethod() => productionMethod;
 }

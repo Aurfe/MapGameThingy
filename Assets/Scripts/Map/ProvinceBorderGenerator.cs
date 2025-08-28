@@ -6,7 +6,7 @@ public class ProvinceBorderGenerator : MonoBehaviour
 
     private Texture2D borderMapTexture;
     [SerializeField] private Material borderMapMaterial;
-    [SerializeField] private Texture2D provinceMapTexture;
+    private Texture2D provinceMapTexture;
 
     [SerializeField] private Color32 externalBorderColor;
     [SerializeField] private Color32 internalBorderColor;
@@ -25,6 +25,8 @@ public class ProvinceBorderGenerator : MonoBehaviour
 
     private void Start()
     {
+        provinceMapTexture = ProvinceManager.Instance.GetProvinceMap();
+
         borderMapTexture = new Texture2D(provinceMapTexture.width, provinceMapTexture.height, TextureFormat.ARGB32, false);
         borderMapTexture.filterMode = FilterMode.Point;
 

@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc4782cb38fc91d438672dac8ed2e35c, type: 3}
-  m_Name: Farm
+  m_Name: Site_Blacksmith
   m_EditorClassIdentifier: 
-  producedGood: Food
+  productionMethod: {fileID: 11400000, guid: 46b5c3aa04e83024db444ac7c73ad406, type: 2}

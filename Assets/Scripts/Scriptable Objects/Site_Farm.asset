@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -228747253, guid: a4865f1ab4504ed8a368670db22f409c, type: 3}
-  m_Name: OdinModuleConfig
+  m_Script: {fileID: 11500000, guid: bc4782cb38fc91d438672dac8ed2e35c, type: 3}
+  m_Name: Site_Farm
   m_EditorClassIdentifier: 
-  configurations: []
-  ModuleTogglingSettings: 1
-  ModuleUpdateSettings: 1
+  productionMethod: {fileID: 11400000, guid: 289b089156da9e648b23fdccb43258d6, type: 2}

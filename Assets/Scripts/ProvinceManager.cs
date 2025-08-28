@@ -104,7 +104,8 @@ public class ProvinceManager : SerializedMonoBehaviour
         return selectedProvince;
     }
 
-    public Dictionary<Color32, Province> provinceDictionary;
+    [SerializeField]
+    Dictionary<Color32, Province> provinceDictionary;
 
     public Province GetProvinceByColor(Color32 color)
     {

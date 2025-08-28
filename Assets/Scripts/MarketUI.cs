@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MarketUI : MonoBehaviour
@@ -8,10 +10,10 @@ public class MarketUI : MonoBehaviour
     [SerializeField]
     Transform goodItemPrefab;
 
-    public void GenerateGoodList(Market market)
+    public void GenerateGoodList(List<ConcreteGood> goods)
     {
         ClearGoodListUI();
-        foreach(Good good in market.GetGoodsInMarket())
+        foreach(ConcreteGood good in goods)
         {
             Transform goodItem = Instantiate(goodItemPrefab, goodListContent);
             goodItem.GetComponent<GoodUI>().SetUI(good);

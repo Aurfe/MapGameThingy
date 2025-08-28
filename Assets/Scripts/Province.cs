@@ -7,7 +7,6 @@ public class Province : MonoBehaviour
     private void Awake()
     {
         borderPixelCoordinates = new Dictionary<Province, List<Vector2Int>>();
-        provinceSites = new List<ConcreteSite>();
         provinceName = gameObject.name;
     }
 
@@ -15,19 +14,27 @@ public class Province : MonoBehaviour
 
     public Country country;
 
-    private List<ConcreteSite> provinceSites;
+    private List<ConcreteSite> provinceSites = new List<ConcreteSite>();
+    private List<Pop> provincePops = new List<Pop>();
 
     private void Start()
     {
         foreach (Transform child in transform)
             if (child.TryGetComponent<ConcreteSite>(out var site))
+            {
                 provinceSites.Add(site);
+                if (site.GetPop() != null)
+                {
+                    provincePops.Add(site.GetPop());
+                }
+            }
     }
 
     public List<Vector2Int> pixelCoordinates; // List of pixel coordinates representing the province on the map
 
     public Dictionary<Province, List<Vector2Int>> borderPixelCoordinates; // Dictionary to hold neighboring provinces and their border pixel coordinates
 
+    // Update the border pixels on the border map texture based on neighboring provinces
     public void UpdateBorderPixels()
     {
         Color32 borderColor;
@@ -65,5 +72,10 @@ public class Province : MonoBehaviour
     public List<ConcreteSite> GetSiteList()
     {
         return provinceSites;
+    }
+
+    public List<Pop> GetPopList()
+    {
+        return provincePops;
     }
 }
