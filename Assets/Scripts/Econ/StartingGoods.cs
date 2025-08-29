@@ -25,7 +25,7 @@ public class StartingGoods : MonoBehaviour
 
         for (int i = 0; i < startingToolAmount; i++)
         {
-            ConcreteGood tool = new ConcreteGood(GoodsManager.instance.GetGoodSOByName("Tools"), 5);
+            ConcreteGood tool = new ConcreteGood(GoodsManager.instance.GetGoodSOByName("Tools"), 10);
             startingGoods.Add(tool);
         }
 

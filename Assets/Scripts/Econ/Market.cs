@@ -10,6 +10,7 @@ public class Market : SerializedMonoBehaviour
 
     [SerializeField]
     Dictionary<GoodSO, List<ConcreteGood>> goodsInMarket = new Dictionary<GoodSO, List<ConcreteGood>>();
+    Dictionary<GoodSO, GoodMarketData> marketDataByGoodType = new Dictionary<GoodSO, GoodMarketData>();
 
     [SerializeField]
     List<Province> provincesInMarket;
@@ -25,6 +26,7 @@ public class Market : SerializedMonoBehaviour
         foreach (GoodSO goodType in GoodsManager.instance.GetGoodSOs())
         {
             goodsInMarket.Add(goodType, new List<ConcreteGood>());
+            marketDataByGoodType.Add(goodType, new GoodMarketData());
         }
     }
 
@@ -84,30 +86,24 @@ public class Market : SerializedMonoBehaviour
         }
     }
 
+    //A market tick consists of:
     private void MarketTick()
     {
+        ResetCostOfLiving();
         ConsumeGoods();
+        DecreaseGoodPrices();
         ProduceGoods();
         UpdateMarketUI();
     }
 
-    //Iterate through each province and their sites
-    //Call the ProduceGood method for each site
-    private void ProduceGoods()
+    private void ResetCostOfLiving()
     {
-        foreach(Province province in provincesInMarket)
+        List<Pop> pops = GetAllPops();
+        foreach (Pop pop in pops)
         {
-            foreach(ConcreteSite site in province.GetSiteList())
-            {
-                site.ProduceGood(this);
-            }
+            pop.ResetCostOfLiving();
         }
-
-        SortGoodLists();
-        UpdateMarketUI();
-        ProvinceUI.Instance.GenerateLists();
     }
-
 
     //Iterate through each pop in the market's provinces and have them consume goods
     private void ConsumeGoods()
@@ -117,11 +113,12 @@ public class Market : SerializedMonoBehaviour
         foreach (Pop pop in pops)
         {
             pop.ConsumeGoods();
+            ClearMarketData();
 
             //For now, just have each pop consume one of each good type if available
             foreach (GoodSO goodType in GoodsManager.instance.GetGoodSOs())
             {
-                if(goodType.IsProductionGood())
+                if (goodType.IsProductionGood())
                 {
                     continue; //Pops don't consume production goods
                 }
@@ -132,15 +129,47 @@ public class Market : SerializedMonoBehaviour
                     // Purchase the last good in the list (to simulate a stack/queue)
                     // Good lists are sorted by price, so this is the cheapest good available
                     int goodIndex = goodsInMarket[goodType].Count - 1;
-                    pop.PurchaseGood(goodsInMarket[goodType][goodIndex]);
+                    ConcreteGood goodToPurchase = goodsInMarket[goodType][goodIndex];
+
+                    pop.PurchaseGood(goodToPurchase);
                     goodsInMarket[goodType].RemoveAt(goodIndex);
+
+                    marketDataByGoodType[goodType].RecordSale(goodToPurchase.GetPrice());
                 }
             }
         }
-
-        UpdateMarketUI();
         ProvinceUI.Instance.GenerateLists();
     }
+
+    //Iterate through each good in the market and decrease its price based on time in market
+    private void DecreaseGoodPrices()
+    {
+        foreach (var goodList in goodsInMarket.Values)
+        {
+            foreach (ConcreteGood good in goodList)
+            {
+                good.IncrementTimeInMarket();
+            }
+        }
+    }
+
+    //Iterate through each province and their sites
+    //Call the ProduceGood method for each site
+    private void ProduceGoods()
+    {
+        foreach (Province province in provincesInMarket)
+        {
+            foreach (ConcreteSite site in province.GetSiteList())
+            {
+                site.ProduceGood(this);
+            }
+        }
+
+        SortGoodLists();
+        ProvinceUI.Instance.GenerateLists();
+    }
+
+    
 
     public void AddGoodToMarket(ConcreteGood goodToAdd)
     {
@@ -209,10 +238,6 @@ public class Market : SerializedMonoBehaviour
         marketUI.SetTotalMarketWealth(GetTotalPopWealth());
         marketUI.GenerateGoodList(GetAllGoodsInMarket());
     }
-    private void MarketManager_OnMarketUpdate(object sender, EventArgs e)
-    {
-        MarketTick();
-    }
 
     public int GetTotalPopWealth()
     {
@@ -223,5 +248,56 @@ public class Market : SerializedMonoBehaviour
             totalWealth += pop.GetMoney();
         }
         return totalWealth;
+    }
+
+    //A good is considered "in demand" if the number of sales recorded
+    //in the last tick is less than the number of pops in the market
+    //ie "if every pop could have bought one, then supply is meeting demand"
+    //This is a very basic measure and can be improved in the future
+    public bool IsGoodInDemand(GoodSO goodType)
+    {
+        if (marketDataByGoodType.ContainsKey(goodType))
+        {
+            if(marketDataByGoodType[goodType].GetAmountSold() >= GetAllPops().Count)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public int GetNumberOfSalesRecorded(GoodSO goodType)
+    {
+        if (marketDataByGoodType.ContainsKey(goodType))
+        {
+            return marketDataByGoodType[goodType].GetAmountSold();
+        }
+        return 0;
+    }
+    public int GetHighestPriceRecorded(GoodSO goodType)
+    {
+        if (marketDataByGoodType.ContainsKey(goodType))
+        {
+            return marketDataByGoodType[goodType].GetHighestPrice();
+        }
+        return 0;
+    }
+    public int GetLowestPriceRecorded(GoodSO goodType)
+    {
+        if (marketDataByGoodType.ContainsKey(goodType))
+        {
+            return marketDataByGoodType[goodType].GetLowestPrice();
+        }
+        return 0;
+    }
+    private void ClearMarketData()
+    {
+        foreach (GoodMarketData data in marketDataByGoodType.Values)
+        {
+            data.ClearData();
+        }
+    }
+    private void MarketManager_OnMarketUpdate(object sender, EventArgs e)
+    {
+        MarketTick();
     }
 }

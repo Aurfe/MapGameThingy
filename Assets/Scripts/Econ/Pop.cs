@@ -9,9 +9,10 @@ public class Pop : MonoBehaviour
     [SerializeField]
     string popName;
 
+    [SerializeField]
     int popMoney = 20;
 
-    int costOfLiving = 1; // Money spent on essentials each consumption cycle
+    int costOfLiving = 5; // Money spent on essentials each consumption cycle
 
     Dictionary<GoodSO, ConcreteGood> goodsOwned = new Dictionary<GoodSO, ConcreteGood>();
 
@@ -26,9 +27,6 @@ public class Pop : MonoBehaviour
         {
             goodsOwned.Add(goodType, null);
         }
-
-        // Subscribe to market consumption tick event
-        MarketManager.instance.OnMarketUpdate += MarketManager_OnMarketUpdate;
     }
 
     public string GetPopName()
@@ -97,16 +95,15 @@ public class Pop : MonoBehaviour
         if (subsistenceMode)
             UseSubsistenceGood();
     }
-
+    public void ResetCostOfLiving()
+    {
+        costOfLiving = 5;
+    }
     public int GetMoney() => popMoney;
     public int GetCostOfLiving() => costOfLiving > 0 ? costOfLiving : 1;
     public bool IsInSubsistenceMode() => subsistenceMode;
     public void IncreaseMoney(int money)
     {
         popMoney += money;
-    }
-    private void MarketManager_OnMarketUpdate(object sender, EventArgs e)
-    {
-        costOfLiving = 0;
     }
 }

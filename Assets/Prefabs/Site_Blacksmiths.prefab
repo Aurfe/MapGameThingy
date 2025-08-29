@@ -93,4 +93,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popName: Blacksmith
+  popMoney: 50
   subsistenceMode: 1

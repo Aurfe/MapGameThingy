@@ -5,8 +5,9 @@ public class ConcreteGood
     [SerializeField]
     GoodSO goodData;
 
-    private int usesLeft;
-    private int price;
+    int usesLeft;
+    int price;
+    int timeInMarket = 0;
 
     private Pop goodOwner;
 
@@ -37,6 +38,16 @@ public class ConcreteGood
             return true; // Successfully used the good
         }
         return false; // No uses left
+    }
+
+    public void IncrementTimeInMarket()
+    {
+        timeInMarket++;
+
+        price -= Mathf.RoundToInt( price * (timeInMarket / 100));
+
+        if (price < 1)
+            price = 1;
     }
 
     public GoodSO GetGoodType() => goodData;

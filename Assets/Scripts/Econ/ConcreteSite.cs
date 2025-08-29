@@ -74,7 +74,6 @@ public class ConcreteSite : MonoBehaviour
         foreach (var output in productionMethod.GetOutputGoods())
         {
             int amountToProduce = output.Value + productionBonus;
-            Debug.Log($"Producing {amountToProduce} of {output.Key.GetGoodName()} at {siteName}");
 
             // If the pop is in subsistence mode, ensure at least one good is reserved for their own use
             if (sitePop.IsInSubsistenceMode() && amountToProduce > 0)
@@ -92,7 +91,7 @@ public class ConcreteSite : MonoBehaviour
             }
 
             GoodSO goodType = output.Key;
-            int pricePerGood = CalculateGoodPrice(amountToProduce);
+            int pricePerGood = CalculateGoodPrice(market, goodType);
 
             for (int i = 0; i < amountToProduce; i++)
             {
@@ -102,14 +101,45 @@ public class ConcreteSite : MonoBehaviour
         }
     }
 
-    protected int CalculateGoodPrice(int amountOfGoods)
+    protected int CalculateGoodPrice(Market market, GoodSO goodType)
     {
         int goodPrice = 0;
-        goodPrice += sitePop.GetCostOfLiving();
-        goodPrice = goodPrice / amountOfGoods; // Distribute cost across all goods produced
-        goodPrice = Mathf.Max(goodPrice, 1); // Ensure price is at least 1
 
+        // Basic pricing algorithm: base price modified by supply and demand:
 
+        // If good is not in demand, set price to lowest recorded price or cost of living, whichever is higher
+        if (!market.IsGoodInDemand(goodType))
+        {
+            Debug.Log(goodType.GetGoodName() + " is not in demand");
+            int lowestRecordedPrice = market.GetLowestPriceRecorded(goodType);
+            int costOfLiving = sitePop.GetCostOfLiving();
+
+            if (lowestRecordedPrice > costOfLiving)
+            {
+                Debug.Log("Setting price of " + goodType.GetGoodName() + " to lowest recorded price");
+                goodPrice = lowestRecordedPrice;
+            }
+            else
+            {
+                Debug.Log("Setting price of " + goodType.GetGoodName() + " to cost of living");
+                goodPrice = costOfLiving;
+            }
+        }
+        else // If good is in demand, set price to highest recorded price plus or minus a small random factor
+        {
+            Debug.Log(goodType.GetGoodName() + " is in demand");
+            int highestRecordedPrice = market.GetHighestPriceRecorded(goodType);
+            
+            goodPrice = highestRecordedPrice + Mathf.RoundToInt(((float)highestRecordedPrice * Random.Range(-0.2f, 0.2f)));
+        }
+
+        if (goodPrice < 1)
+        {
+            Debug.Log("Adjusting price of " + goodType.GetGoodName() + " to minimum of 1");
+            goodPrice = 1; // Ensure price is at least 1
+        }
+
+        Debug.Log("Final price of " + goodType.GetGoodName() + " set to " + goodPrice);
         return goodPrice;
     }
 
