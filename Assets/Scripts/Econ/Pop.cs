@@ -20,8 +20,11 @@ public class Pop : MonoBehaviour
     bool subsistenceMode; // If true, pop will take a good they produce
     ConcreteGood subsistingGood; // The good a pop will put asside if in subsistence mode
 
+    PopLog popLog;
+
     void Start()
     {
+        popLog = GetComponent<PopLog>();
         // Initialize goodsOwned with all GoodSOs set to null
         foreach (GoodSO goodType in GoodsManager.instance.GetGoodSOs())
         {
@@ -55,6 +58,8 @@ public class Pop : MonoBehaviour
         {
             costOfLiving += good.GetPrice();
         }
+
+        popLog.AddLogEntry($"{popName} purchased {good.GetName()} for {good.GetPrice()}");
 
         return true;
     }
@@ -95,6 +100,15 @@ public class Pop : MonoBehaviour
         if (subsistenceMode)
             UseSubsistenceGood();
     }
+
+    public void AddToLog(string entry)
+    {
+        popLog.AddLogEntry(entry);
+    }
+    public List<string> GetPopLog()
+    {
+        return popLog.GetLogEntries();
+    }
     public void ResetCostOfLiving()
     {
         costOfLiving = 5;
@@ -104,6 +118,7 @@ public class Pop : MonoBehaviour
     public bool IsInSubsistenceMode() => subsistenceMode;
     public void IncreaseMoney(int money)
     {
+        popLog.AddLogEntry($"{popName} received {money}");
         popMoney += money;
     }
 }

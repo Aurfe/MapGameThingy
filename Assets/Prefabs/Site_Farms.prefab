@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7061957864656271703}
+  - {fileID: 5808086206452365589}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3053732823774983346
@@ -48,50 +48,65 @@ MonoBehaviour:
   siteName: Farms
   siteData: {fileID: 11400000, guid: 99c7a8350fbe76545b72094738ffa933, type: 2}
   baseProductionBonus: 0
-  landFertilityBonus: 1
---- !u!1 &8500934055902735712
-GameObject:
+--- !u!1001 &6428881245945764321
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7061957864656271703}
-  - component: {fileID: 3118930917843776065}
-  m_Layer: 0
-  m_Name: Pop_Farmer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7061957864656271703
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8500934055902735712}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8017832725205602886}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3118930917843776065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8017832725205602886}
+    m_Modifications:
+    - target: {fileID: 697370539969536244, guid: 77f2d46a17625fb48a670d02bc3d9603, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697370539969536244, guid: 77f2d46a17625fb48a670d02bc3d9603, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697370539969536244, guid: 77f2d46a17625fb48a670d02bc3d9603, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697370539969536244, guid: 77f2d46a17625fb48a670d02bc3d9603, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 697370539969536244, guid: 77f2d46a17625fb48a670d02bc3d9603, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697370539969536244, guid: 77f2d46a17625fb48a670d02bc3d9603, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697370539969536244, guid: 77f2d46a17625fb48a670d02bc3d9603, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697370539969536244, guid: 77f2d46a17625fb48a670d02bc3d9603, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697370539969536244, guid: 77f2d46a17625fb48a670d02bc3d9603, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697370539969536244, guid: 77f2d46a17625fb48a670d02bc3d9603, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6593397767146955097, guid: 77f2d46a17625fb48a670d02bc3d9603, type: 3}
+      propertyPath: m_Name
+      value: Pop_Farmer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 77f2d46a17625fb48a670d02bc3d9603, type: 3}
+--- !u!4 &5808086206452365589 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 697370539969536244, guid: 77f2d46a17625fb48a670d02bc3d9603, type: 3}
+  m_PrefabInstance: {fileID: 6428881245945764321}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8500934055902735712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcd4c382a3b545448b2d4486c0d79371, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  popName: Farmer
-  subsistenceMode: 1

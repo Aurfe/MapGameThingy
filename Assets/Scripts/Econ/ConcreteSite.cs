@@ -98,6 +98,8 @@ public class ConcreteSite : MonoBehaviour
                 ConcreteGood producedGood = new ConcreteGood(goodType, pricePerGood, sitePop);
                 market.AddGoodToMarket(producedGood);
             }
+
+            sitePop.AddToLog($"Produced {amountToProduce} of {goodType.GetGoodName()} at {siteName} for {pricePerGood} each");
         }
     }
 
