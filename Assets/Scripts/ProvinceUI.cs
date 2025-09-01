@@ -48,7 +48,6 @@ public class ProvinceUI : MonoBehaviour, IManageable
 
     private void SetUI(Province province)
     {
-
         provinceNameTag.text = province.GetProvinceName();
         provinceWealth.text = "Wealth: " + province.GetTotalWealth().ToString();
         provincePopulation.text = "Population: " + province.GetTotalPopulation().ToString();
@@ -109,5 +108,7 @@ public class ProvinceUI : MonoBehaviour, IManageable
         uiMenus[uiMenuIndex].SetActive(false);
         uiMenuIndex = menuIndex;
         uiMenus[uiMenuIndex].SetActive(true);
+
+        PopLogUI.Instance.ClosePopLog();
     }
 }

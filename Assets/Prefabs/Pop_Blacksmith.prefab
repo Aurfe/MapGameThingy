@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2170477963375059351, guid: a1e7f4e390a79eb41832dd668c4ab3b0, type: 3}
       propertyPath: subsistenceMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2470965568373738163, guid: a1e7f4e390a79eb41832dd668c4ab3b0, type: 3}
       propertyPath: m_Name

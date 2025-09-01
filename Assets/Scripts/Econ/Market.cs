@@ -54,6 +54,14 @@ public class Market : SerializedMonoBehaviour
             return new List<ConcreteGood>();
         }
     }
+    public int GetNumberOfGoodsInMarket(GoodSO goodType)
+    {
+        if (goodsInMarket.ContainsKey(goodType))
+        {
+            return goodsInMarket[goodType].Count;
+        }
+        return 0;
+    }
     public ConcreteGood GetGoodOfTypeInMarket(GoodSO goodType)
     {
         if (goodsInMarket.ContainsKey(goodType) && goodsInMarket[goodType].Count > 0)
@@ -62,17 +70,15 @@ public class Market : SerializedMonoBehaviour
         }
         return null;
     }
-    public List<ConcreteGood> GetNumberOfGoodsByType(GoodSO goodType, int number, out int totalPrice)
+    // Get a specified number of goods of a certain type from the market, returning the total price
+    public List<ConcreteGood> GetSeveralGoodsByType(GoodSO goodType, int number, out int totalPrice)
     {
         totalPrice = 0;
         // Check if the good type exists and there are enough goods available
         if (goodsInMarket.ContainsKey(goodType) && goodsInMarket[goodType].Count >= number)
         {
             // Select the specified number of goods from the end of the list (they will be the cheapest due to sorting)
-            List<ConcreteGood> selectedGoods = goodsInMarket[goodType]
-                .OrderByDescending(good => good.GetPrice())
-                .Take(number)
-                .ToList();
+            List<ConcreteGood> selectedGoods = goodsInMarket[goodType].GetRange(goodsInMarket[goodType].Count - number, number);
             foreach (ConcreteGood good in selectedGoods)
             {
                 totalPrice += good.GetPrice();
@@ -169,8 +175,6 @@ public class Market : SerializedMonoBehaviour
         ProvinceUI.Instance.GenerateLists();
     }
 
-    
-
     public void AddGoodToMarket(ConcreteGood goodToAdd)
     {
         if (goodToAdd == null)
@@ -250,15 +254,13 @@ public class Market : SerializedMonoBehaviour
         return totalWealth;
     }
 
-    //A good is considered "in demand" if the number of sales recorded
-    //in the last tick is less than the number of pops in the market
-    //ie "if every pop could have bought one, then supply is meeting demand"
+    //A good is considered "in demand" if there are no copies of it in the market
     //This is a very basic measure and can be improved in the future
     public bool IsGoodInDemand(GoodSO goodType)
     {
         if (marketDataByGoodType.ContainsKey(goodType))
         {
-            if(marketDataByGoodType[goodType].GetAmountSold() >= GetAllPops().Count)
+            if(GetNumberOfGoodsInMarket(goodType) > 0)
             {
                 return false;
             }

@@ -46,11 +46,14 @@ public class Pop : MonoBehaviour
         if (!good.GetGoodType().IsProductionGood())
             goodsOwned[good.GetGoodType()] = good; // Production goods are not stored
 
-        popMoney -= good.GetPrice();
-
         if (good.GetOwner() != null) // If the good has an owner, pay them
         {
-            good.GetOwner().IncreaseMoney(good.GetPrice());
+            good.GetPurchased(this);
+        }
+        else
+        // If the good has no owner, just deduct the money from the pop
+        {
+            popMoney -= good.GetPrice();
         }
 
         // If the good is essential or for production, add its price to the cost of living
@@ -59,7 +62,7 @@ public class Pop : MonoBehaviour
             costOfLiving += good.GetPrice();
         }
 
-        popLog.AddLogEntry($"{popName} purchased {good.GetName()} for {good.GetPrice()}");
+        popLog.AddLogEntry($"{popName} purchased {good.GetName()} for {good.GetPrice()} from {(good.GetOwner() != null ? good.GetOwner().GetPopName() : "null")}");
 
         return true;
     }
@@ -116,9 +119,8 @@ public class Pop : MonoBehaviour
     public int GetMoney() => popMoney;
     public int GetCostOfLiving() => costOfLiving > 0 ? costOfLiving : 1;
     public bool IsInSubsistenceMode() => subsistenceMode;
-    public void IncreaseMoney(int money)
+    public void ChangeMoney(int money)
     {
-        popLog.AddLogEntry($"{popName} received {money}");
         popMoney += money;
     }
 }

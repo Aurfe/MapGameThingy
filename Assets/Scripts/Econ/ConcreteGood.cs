@@ -29,7 +29,12 @@ public class ConcreteGood
         this.goodData = goodData;
         usesLeft = goodData.IsProductionGood() ? -1 : goodData.GetConsumptionUses();
     }
-
+    public void GetPurchased(Pop pop)
+    {
+        pop.ChangeMoney(-price);
+        goodOwner.AddToLog(goodOwner.GetPopName() + " sold " + GetName() + " to " + pop.GetPopName() + " for " + price);
+        goodOwner.ChangeMoney(price);
+    }
     public bool UseGood()
     {
         usesLeft--;
@@ -44,7 +49,9 @@ public class ConcreteGood
     {
         timeInMarket++;
 
-        price -= Mathf.RoundToInt( price * (timeInMarket / 100));
+        int priceReduction = Mathf.RoundToInt(price * (timeInMarket / 10.0f));
+        Debug.Log(GetName() + "| Original Price: " + price + " | Reduced by: " + priceReduction);
+        price -= priceReduction;
 
         if (price < 1)
             price = 1;
