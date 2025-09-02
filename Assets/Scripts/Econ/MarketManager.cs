@@ -6,6 +6,8 @@ public class MarketManager : MonoBehaviour
 
     public static MarketManager instance { get; private set; }
 
+    int marketTick = 0;
+
     private void Awake()
     {
         if (instance == null)
@@ -20,5 +22,7 @@ public class MarketManager : MonoBehaviour
     public void TriggerMarketUpdate()
     {
         OnMarketUpdate?.Invoke(this, System.EventArgs.Empty);
+        marketTick++;
     }
+    public int GetMarketTickNumber() => marketTick;
 }

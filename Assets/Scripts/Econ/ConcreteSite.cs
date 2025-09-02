@@ -55,7 +55,6 @@ public class ConcreteSite : MonoBehaviour
                 // Check if the market has enough of the input good and get total price
                 int totalPrice = 0;
                 List<ConcreteGood> inputGoodsNeeded = market.GetSeveralGoodsByType(input.Key, input.Value, out totalPrice);
-
                 if (sitePop.GetMoney() < totalPrice)
                 {
                     sitePop.AddToLog($"Cannot afford input goods for production. Needed: {totalPrice}, Available: {sitePop.GetMoney()}");
@@ -77,7 +76,7 @@ public class ConcreteSite : MonoBehaviour
             int amountToProduce = output.Value + productionBonus;
 
             // If the pop is in subsistence mode, ensure at least one good is reserved for their own use
-            if (sitePop.IsInSubsistenceMode() && amountToProduce > 0)
+            if (sitePop.IsInSubsistenceMode() && amountToProduce > 0 && output.Key.IsEssentialGood())
             {
                 if(!sitePop.HasGood(output.Key))
                 {
@@ -123,7 +122,7 @@ public class ConcreteSite : MonoBehaviour
         {
             int highestRecordedPrice = market.GetHighestPriceRecorded(goodType);
             
-            goodPrice = highestRecordedPrice + Mathf.RoundToInt(((float)highestRecordedPrice * Random.Range(-0.2f, 0.2f)));
+            goodPrice = highestRecordedPrice + Mathf.RoundToInt(((float)highestRecordedPrice * Random.Range(0f, 0.4f)));
         }
 
         if (goodPrice < sitePop.GetCostOfLiving())

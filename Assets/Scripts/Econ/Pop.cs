@@ -62,7 +62,7 @@ public class Pop : MonoBehaviour
             costOfLiving += good.GetPrice();
         }
 
-        popLog.AddLogEntry($"{popName} purchased {good.GetName()} for {good.GetPrice()} from {(good.GetOwner() != null ? good.GetOwner().GetPopName() : "null")}");
+        AddToLog($"{popName} purchased {good.GetName()} for {good.GetPrice()} from {(good.GetOwner() != null ? good.GetOwner().GetPopName() : "null")}");
 
         return true;
     }
@@ -86,14 +86,14 @@ public class Pop : MonoBehaviour
         return goodsOwned[goodType] != null;
     }
 
-    // Consumes one use of each good owned by the pop. If a good runs out of uses and is not a production good, it is removed.
+    // Consumes one use of each good owned by the pop. If a good runs out of uses, it is removed.
     public void ConsumeGoods()
     {
         foreach (var key in new List<GoodSO>(goodsOwned.Keys))
         {
             if (goodsOwned[key] == null) continue;
 
-            if (!goodsOwned[key].UseGood() && !key.IsProductionGood())
+            if (!goodsOwned[key].UseGood())
             {
                 goodsOwned[key] = null;
             }
@@ -106,7 +106,8 @@ public class Pop : MonoBehaviour
 
     public void AddToLog(string entry)
     {
-        popLog.AddLogEntry(entry);
+        string timestamp = $"[{MarketManager.instance.GetMarketTickNumber()}] ";
+        popLog.AddLogEntry(timestamp + entry);
     }
     public List<string> GetPopLog()
     {

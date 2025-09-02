@@ -2,16 +2,17 @@ using UnityEngine;
 
 public class GoodMarketData
 {
-    int highestPrice = 0;
-    int lowestPrice = 0;
-    int amountSold = 0;
-    int totalSales = 0;
+    int highestPrice;
+    int lowestPrice;
+    int amountSold;
+    int totalSales;
 
     public void ClearData()
     {
         highestPrice = 0;
         lowestPrice = 0;
         amountSold = 0;
+        totalSales = 0;
     }
     public void RecordSale(int price)
     {

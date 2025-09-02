@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Good_Food
   m_EditorClassIdentifier: 
   goodName: Food
-  goodID: 1
+  isPerishable: 1
   isProductionGood: 0
   isEssentialGood: 1
   consumptionUses: 1

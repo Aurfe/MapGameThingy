@@ -7,7 +7,7 @@ public class GoodSO : ScriptableObject
     string goodName;
 
     [SerializeField]
-    int goodID;
+    bool isPerishable;
 
     [SerializeField]
     bool isProductionGood;
@@ -19,8 +19,8 @@ public class GoodSO : ScriptableObject
     int consumptionUses;
 
     public string GetName() => goodName;
-    public int GetID() => goodID;
     public bool IsProductionGood() => isProductionGood;
+    public bool IsPerishable() => isPerishable;
     public int GetConsumptionUses() => consumptionUses;
     public bool IsEssentialGood() => isEssentialGood;
     public string GetGoodName() => goodName;

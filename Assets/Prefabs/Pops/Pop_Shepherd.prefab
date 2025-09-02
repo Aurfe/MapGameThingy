@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5515140663817307731
+--- !u!1001 &565166164670642343
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2170477963375059351, guid: a1e7f4e390a79eb41832dd668c4ab3b0, type: 3}
       propertyPath: popName
-      value: Blacksmith
+      value: Shepherd
       objectReference: {fileID: 0}
     - target: {fileID: 2170477963375059351, guid: a1e7f4e390a79eb41832dd668c4ab3b0, type: 3}
       propertyPath: subsistenceMode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2470965568373738163, guid: a1e7f4e390a79eb41832dd668c4ab3b0, type: 3}
       propertyPath: m_Name
-      value: Pop_Blacksmith
+      value: Pop_Shepherd
       objectReference: {fileID: 0}
     - target: {fileID: 8099539821375146782, guid: a1e7f4e390a79eb41832dd668c4ab3b0, type: 3}
       propertyPath: m_LocalPosition.x

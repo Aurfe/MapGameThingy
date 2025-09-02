@@ -40,7 +40,7 @@ public class PopLogUI : MonoBehaviour
         for (int i = 0; i < pop.GetPopLog().Count; i++)
         {
             Transform entry = Instantiate(popLogEntryPrefab, content);
-            string logEntry = "[" + (i + 1).ToString() + "] : " + pop.GetPopLog()[i];
+            string logEntry = pop.GetPopLog()[i];
             entry.GetComponent<TMPro.TextMeshProUGUI>().text = logEntry;
         }
     }

@@ -6,6 +6,7 @@ public class ConcreteGood
     GoodSO goodData;
 
     int usesLeft;
+    [SerializeField]
     int price;
     int timeInMarket = 0;
 
@@ -45,12 +46,17 @@ public class ConcreteGood
         return false; // No uses left
     }
 
-    public void IncrementTimeInMarket()
+    public void IncrementTimeInMarket(Market market)
     {
         timeInMarket++;
 
+        // If the good is perishable and has not been sold, remove it from the market
+        if (goodData.IsPerishable())
+        {
+            market.RemoveGoodFromMarket(this);
+        }
+
         int priceReduction = Mathf.RoundToInt(price * (timeInMarket / 10.0f));
-        Debug.Log(GetName() + "| Original Price: " + price + " | Reduced by: " + priceReduction);
         price -= priceReduction;
 
         if (price < 1)

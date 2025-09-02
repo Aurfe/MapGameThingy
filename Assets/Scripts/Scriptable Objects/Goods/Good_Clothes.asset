@@ -9,7 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc4782cb38fc91d438672dac8ed2e35c, type: 3}
-  m_Name: Site_Farm
+  m_Script: {fileID: 11500000, guid: da8c478ca5bdc724ebac1d9dabb0f434, type: 3}
+  m_Name: Good_Clothes
   m_EditorClassIdentifier: 
-  productionMethod: {fileID: 11400000, guid: 289b089156da9e648b23fdccb43258d6, type: 2}
+  goodName: Clothes
+  isPerishable: 0
+  isProductionGood: 0
+  isEssentialGood: 0
+  consumptionUses: 3

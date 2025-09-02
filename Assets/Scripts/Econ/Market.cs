@@ -7,9 +7,12 @@ using UnityEngine;
 public class Market : SerializedMonoBehaviour
 {
     MarketUI marketUI;
+    [SerializeField]
+    MarketLog log;
 
     [SerializeField]
     Dictionary<GoodSO, List<ConcreteGood>> goodsInMarket = new Dictionary<GoodSO, List<ConcreteGood>>();
+    [SerializeField]
     Dictionary<GoodSO, GoodMarketData> marketDataByGoodType = new Dictionary<GoodSO, GoodMarketData>();
 
     [SerializeField]
@@ -30,76 +33,19 @@ public class Market : SerializedMonoBehaviour
         }
     }
 
-    //Return a list of all goods currently in the market
-    public List<ConcreteGood> GetAllGoodsInMarket()
-    {
-        List<ConcreteGood> allGoods = new List<ConcreteGood>();
-
-        foreach(List<ConcreteGood> goodList in goodsInMarket.Values)
-        {
-            allGoods.AddRange(goodList);
-        }
-
-        return allGoods;
-    }
-
-    public List<ConcreteGood> GetGoodsOfTypeInMarket(GoodSO goodType)
-    {
-        if (goodsInMarket.ContainsKey(goodType))
-        {
-            return new List<ConcreteGood>(goodsInMarket[goodType]);
-        }
-        else
-        {
-            return new List<ConcreteGood>();
-        }
-    }
-    public int GetNumberOfGoodsInMarket(GoodSO goodType)
-    {
-        if (goodsInMarket.ContainsKey(goodType))
-        {
-            return goodsInMarket[goodType].Count;
-        }
-        return 0;
-    }
-    public ConcreteGood GetGoodOfTypeInMarket(GoodSO goodType)
-    {
-        if (goodsInMarket.ContainsKey(goodType) && goodsInMarket[goodType].Count > 0)
-        {
-            return goodsInMarket[goodType][goodsInMarket[goodType].Count - 1];
-        }
-        return null;
-    }
-    // Get a specified number of goods of a certain type from the market, returning the total price
-    public List<ConcreteGood> GetSeveralGoodsByType(GoodSO goodType, int number, out int totalPrice)
-    {
-        totalPrice = 0;
-        // Check if the good type exists and there are enough goods available
-        if (goodsInMarket.ContainsKey(goodType) && goodsInMarket[goodType].Count >= number)
-        {
-            // Select the specified number of goods from the end of the list (they will be the cheapest due to sorting)
-            List<ConcreteGood> selectedGoods = goodsInMarket[goodType].GetRange(goodsInMarket[goodType].Count - number, number);
-            foreach (ConcreteGood good in selectedGoods)
-            {
-                totalPrice += good.GetPrice();
-            }
-
-            return selectedGoods;
-        }
-        else
-        {
-            return new List<ConcreteGood>();
-        }
-    }
-
     //A market tick consists of:
     private void MarketTick()
     {
+        ClearMarketData();
         ResetCostOfLiving();
         ConsumeGoods();
         DecreaseGoodPrices();
         ProduceGoods();
         UpdateMarketUI();
+        log.RefreshLogUI();
+
+        // For debugging, print market data for each good type
+        // DebugGoodData(GoodsManager.instance.GetGoodSOByName("Clothes"));
     }
 
     private void ResetCostOfLiving()
@@ -119,7 +65,6 @@ public class Market : SerializedMonoBehaviour
         foreach (Pop pop in pops)
         {
             pop.ConsumeGoods();
-            ClearMarketData();
 
             //For now, just have each pop consume one of each good type if available
             foreach (GoodSO goodType in GoodsManager.instance.GetGoodSOs())
@@ -137,8 +82,10 @@ public class Market : SerializedMonoBehaviour
                     int goodIndex = goodsInMarket[goodType].Count - 1;
                     ConcreteGood goodToPurchase = goodsInMarket[goodType][goodIndex];
 
-                    pop.PurchaseGood(goodToPurchase);
-                    goodsInMarket[goodType].RemoveAt(goodIndex);
+                    if(pop.PurchaseGood(goodToPurchase))
+                    {
+                        RemoveGoodFromMarket(goodToPurchase);
+                    }
 
                     marketDataByGoodType[goodType].RecordSale(goodToPurchase.GetPrice());
                 }
@@ -152,9 +99,10 @@ public class Market : SerializedMonoBehaviour
     {
         foreach (var goodList in goodsInMarket.Values)
         {
-            foreach (ConcreteGood good in goodList)
+            // Iterate backwards to avoid issues when removing items
+            for (int i = goodList.Count - 1; i >= 0; i--)
             {
-                good.IncrementTimeInMarket();
+                goodList[i].IncrementTimeInMarket(this);
             }
         }
     }
@@ -163,15 +111,20 @@ public class Market : SerializedMonoBehaviour
     //Call the ProduceGood method for each site
     private void ProduceGoods()
     {
+        // Randomize the order of provinces to ensure fairness in production
+        var rnd = new System.Random();
+        var randomizedProvinces = provincesInMarket.OrderBy(item => rnd.Next());
+        provincesInMarket = randomizedProvinces.ToList();
+
         foreach (Province province in provincesInMarket)
         {
             foreach (ConcreteSite site in province.GetSiteList())
             {
                 site.ProduceGood(this);
+                SortGoodLists();
             }
         }
 
-        SortGoodLists();
         ProvinceUI.Instance.GenerateLists();
     }
 
@@ -183,6 +136,8 @@ public class Market : SerializedMonoBehaviour
         }
 
         goodsInMarket[goodToAdd.GetGoodType()].Add(goodToAdd);
+
+        log.AddLogEntry("Added " + goodToAdd.GetName() + " to market at price " + goodToAdd.GetPrice());
     }
 
     public void RemoveGoodFromMarket(ConcreteGood goodToRemove)
@@ -192,6 +147,8 @@ public class Market : SerializedMonoBehaviour
             return; // No good to remove
         }
         goodsInMarket[goodToRemove.GetGoodType()].Remove(goodToRemove);
+
+        log.AddLogEntry("Removed " + goodToRemove.GetName() + " from market at price " + goodToRemove.GetPrice());
     }
 
     //Get a list of all pops in the market's provinces
@@ -239,7 +196,6 @@ public class Market : SerializedMonoBehaviour
 
     public void UpdateMarketUI()
     {
-        marketUI.SetTotalMarketWealth(GetTotalPopWealth());
         marketUI.GenerateGoodList(GetAllGoodsInMarket());
     }
 
@@ -253,6 +209,85 @@ public class Market : SerializedMonoBehaviour
         }
         return totalWealth;
     }
+    //Return a list of all goods currently in the market
+    public List<ConcreteGood> GetAllGoodsInMarket()
+    {
+        List<ConcreteGood> allGoods = new List<ConcreteGood>();
+
+        foreach (List<ConcreteGood> goodList in goodsInMarket.Values)
+        {
+            allGoods.AddRange(goodList);
+        }
+
+        return allGoods;
+    }
+
+    public List<ConcreteGood> GetGoodsOfTypeInMarket(GoodSO goodType)
+    {
+        if (goodsInMarket.ContainsKey(goodType))
+        {
+            return new List<ConcreteGood>(goodsInMarket[goodType]);
+        }
+        else
+        {
+            return new List<ConcreteGood>();
+        }
+    }
+    public int GetAmountOfGoodsInMarket(GoodSO goodType)
+    {
+        if (goodsInMarket.ContainsKey(goodType))
+        {
+            return goodsInMarket[goodType].Count;
+        }
+        return 0;
+    }
+    // Gets the single cheapest good of a certain type from the market
+    public ConcreteGood GetGoodOfTypeInMarket(GoodSO goodType)
+    {
+        if (goodsInMarket.ContainsKey(goodType) && goodsInMarket[goodType].Count > 0)
+        {
+
+            return goodsInMarket[goodType][goodsInMarket[goodType].Count - 1];
+        }
+        return null;
+    }
+    // Get a specified number of goods of a certain type from the market, returning the total price
+    public List<ConcreteGood> GetSeveralGoodsByType(GoodSO goodType, int numberOfGoodsRequested, out int totalPrice)
+    {
+        totalPrice = 0;
+        // Check if the good type exists and there are enough goods available
+        if (goodsInMarket.ContainsKey(goodType) && goodsInMarket[goodType].Count >= numberOfGoodsRequested)
+        {
+            List<ConcreteGood> selectedGoods = new List<ConcreteGood>();
+            // Select the cheapest goods available and calculate total price
+            for (int i = 0; i < numberOfGoodsRequested; i++)
+            {
+                ConcreteGood good = GetGoodOfTypeInMarket(goodType);
+                selectedGoods.Add(good);
+                totalPrice += good.GetPrice();
+            }
+
+            return selectedGoods;
+        }
+        else
+        {
+            return new List<ConcreteGood>();
+        }
+    }
+    private void DebugGoodData(GoodSO goodData)
+    {
+        GoodMarketData data = marketDataByGoodType[goodData];
+
+        string log = "";
+        log += $"---- Market Data {MarketManager.instance.GetMarketTickNumber()} ----\n";
+        log += $"Good: {goodData.GetName()}\n";
+        log += $" - Amount Sold: {data.GetAmountSold()}\n";
+        log += $" - Highest Price: {data.GetHighestPrice()}\n";
+        log += $" - Lowest Price: {data.GetLowestPrice()}\n";
+        log += $" - Average Price: {data.GetAveragePrice()}\n";
+        log += $" - In Market: {GetAmountOfGoodsInMarket(goodData)}\n";
+        Debug.Log(log);
+    }
 
     //A good is considered "in demand" if there are no copies of it in the market
     //This is a very basic measure and can be improved in the future
@@ -260,7 +295,7 @@ public class Market : SerializedMonoBehaviour
     {
         if (marketDataByGoodType.ContainsKey(goodType))
         {
-            if(GetNumberOfGoodsInMarket(goodType) > 0)
+            if(GetAmountOfGoodsInMarket(goodType) > 0)
             {
                 return false;
             }
