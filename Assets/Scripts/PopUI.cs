@@ -11,6 +11,7 @@ public class PopUI : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI foodGoodIcon;
     [SerializeField] TextMeshProUGUI toolsGoodIcon;
+    [SerializeField] TextMeshProUGUI clothesGoodIcon;
 
     Pop sitePop;
 
@@ -40,6 +41,15 @@ public class PopUI : MonoBehaviour
         else
         {
             toolsGoodIcon.color = Color.black;
+        }
+
+        if(sitePop.HasGood(GoodsManager.instance.GetGoodSOByName("Clothes")))
+        {
+            clothesGoodIcon.color = Color.white;
+        }
+        else
+        {
+            clothesGoodIcon.color = Color.black;
         }
     }
 

@@ -49,24 +49,11 @@ public class ConcreteSite : MonoBehaviour
         // Check if there are input goods required for production
         if (productionMethod.GetInputGoods() != null)
         {
-            // Purchase input goods from market
-            foreach (var input in productionMethod.GetInputGoods())
+            // Attempt to purchase input goods from the market
+            bool flowControl = PurchaseInputGoods(market, productionMethod);
+            if (!flowControl)
             {
-                // Check if the market has enough of the input good and get total price
-                int totalPrice = 0;
-                List<ConcreteGood> inputGoodsNeeded = market.GetSeveralGoodsByType(input.Key, input.Value, out totalPrice);
-                if (sitePop.GetMoney() < totalPrice)
-                {
-                    sitePop.AddToLog($"Cannot afford input goods for production. Needed: {totalPrice}, Available: {sitePop.GetMoney()}");
-                    return; // Cannot afford input goods, abort production
-                }
-
-                // Purchase each input good
-                foreach (ConcreteGood good in inputGoodsNeeded)
-                {
-                    sitePop.PurchaseGood(good);
-                    market.RemoveGoodFromMarket(good);
-                }
+                return;
             }
         }
 
@@ -78,7 +65,7 @@ public class ConcreteSite : MonoBehaviour
             // If the pop is in subsistence mode, ensure at least one good is reserved for their own use
             if (sitePop.IsInSubsistenceMode() && amountToProduce > 0 && output.Key.IsEssentialGood())
             {
-                if(!sitePop.HasGood(output.Key))
+                if (!sitePop.HasGood(output.Key))
                 {
                     sitePop.AddSubsistenceGood(new ConcreteGood(output.Key, 0, sitePop));
                     sitePop.AddToLog($"Reserved 1 of {output.Key.GetGoodName()} for subsistence");
@@ -103,6 +90,37 @@ public class ConcreteSite : MonoBehaviour
 
             sitePop.AddToLog($"Produced {amountToProduce} of {goodType.GetGoodName()} at {siteName} for {pricePerGood} each");
         }
+    }
+
+    // Purchase input goods from market
+    private bool PurchaseInputGoods(Market market, ProductionMethod productionMethod)
+    {
+        foreach (var input in productionMethod.GetInputGoods())
+        {
+            // Check if the market has enough of the input good
+            if(market.GetAmountOfGoodsInMarket(input.Key) < input.Value)
+            {
+                sitePop.AddToLog($"Not enough {input.Key.GetGoodName()} in market for production. Needed: {input.Value}, Available: {market.GetAmountOfGoodsInMarket(input.Key)}");
+                return false; // Not enough input goods, abort production
+            }
+
+            int totalPrice = 0;
+            List<ConcreteGood> inputGoodsNeeded = market.GetSeveralGoodsByType(input.Key, input.Value, out totalPrice);
+            if (sitePop.GetMoney() < totalPrice)
+            {
+                sitePop.AddToLog($"Cannot afford input goods for production. Needed: {totalPrice}, Available: {sitePop.GetMoney()}");
+                return false; // Cannot afford input goods, abort production
+            }
+
+            // Purchase each input good
+            foreach (ConcreteGood good in inputGoodsNeeded)
+            {
+                sitePop.PurchaseGood(good);
+                market.RemoveGoodFromMarket(good);
+            }
+        }
+
+        return true;
     }
 
     protected int CalculateGoodPrice(Market market, GoodSO goodType)
