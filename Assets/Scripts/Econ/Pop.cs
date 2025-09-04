@@ -40,8 +40,19 @@ public class Pop : MonoBehaviour
     // Gets the good from the market, deducts money from the pop, and adds money to the good's owner
     public bool PurchaseGood(ConcreteGood good)
     {
+        // If the pop cannot afford the good, return false
         if (good.GetPrice() > popMoney)
-            return false; // Cannot afford the good
+            return false;
+
+        if (!(good.GetGoodType().IsEssentialGood() || good.GetGoodType().IsProductionGood()) && good.GetPrice() > (popMoney * 0.5))
+        {
+            return false; // Pops will not buy non-essential goods that cost more than half their money
+        }
+        if ((good.GetGoodType().IsEssentialGood() || good.GetGoodType().IsProductionGood()) && good.GetPrice() > (popMoney * 0.8))
+        {
+            return false; // Pops will not buy essential goods that cost more than 80% of their money
+        }
+
 
         if (!good.GetGoodType().IsProductionGood())
             goodsOwned[good.GetGoodType()] = good; // Production goods are not stored
