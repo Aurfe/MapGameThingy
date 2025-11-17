@@ -91,7 +91,6 @@ public class Market : SerializedMonoBehaviour
                 }
             }
         }
-        ProvinceUI.Instance.GenerateLists();
     }
 
     //Iterate through each good in the market and decrease its price based on time in market
@@ -124,8 +123,6 @@ public class Market : SerializedMonoBehaviour
                 SortGoodLists();
             }
         }
-
-        ProvinceUI.Instance.GenerateLists();
     }
 
     public void AddGoodToMarket(ConcreteGood goodToAdd)

@@ -31,6 +31,8 @@ public class Province : MonoBehaviour
                     provincePops.Add(site.GetPop());
                 }
             }
+        if(country != null)
+            country.AddProvince(this);
     }
 
     public List<Vector2Int> pixelCoordinates; // List of pixel coordinates representing the province on the map
@@ -65,6 +67,18 @@ public class Province : MonoBehaviour
         }
 
         borderMapTexture.Apply(); // Apply changes to the texture
+    }
+
+    public int TaxPops()
+    {
+        int totalTaxRevenue = 0;
+        int taxRate = country.GetTaxRate();
+        foreach (Pop pop in provincePops)
+        {
+            totalTaxRevenue += pop.PayTaxes(taxRate); ;
+        }
+        country.AddToTreasury(totalTaxRevenue);
+        return totalTaxRevenue;
     }
 
     public string GetProvinceName()

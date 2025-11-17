@@ -22,6 +22,7 @@ public class MarketManager : MonoBehaviour
     public void TriggerMarketUpdate()
     {
         OnMarketUpdate?.Invoke(this, System.EventArgs.Empty);
+        ProvinceUI.Instance.GenerateLists();
         marketTick++;
     }
     public int GetMarketTickNumber() => marketTick;

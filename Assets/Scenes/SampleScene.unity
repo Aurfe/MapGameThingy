@@ -635,59 +635,6 @@ Transform:
   - {fileID: 1732482491}
   m_Father: {fileID: 1325775528}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &55857984
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 55857985}
-  - component: {fileID: 55857986}
-  m_Layer: 0
-  m_Name: Northern Union
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &55857985
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 55857984}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 979620879}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &55857986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 55857984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 720f5761b4299bf459e61303e82f4313, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  countryName: Northern Union
-  countryColor:
-    serializedVersion: 2
-    rgba: 4279834297
-  countryDescription: A democratic confederation comprised of the states of Centralia,
-    Eastonia, and Westonia. They unified following the Treaty of Acrevalt, when it
-    was feared that the newly found Sudland Kingdom would tip the balance of power
-    on the island. They have been fighting against the Sudlanders for 4 brutal years
-    to maintain the liberties and independence of the Nordland states.
 --- !u!1001 &61420315
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2003,7 +1950,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6fb8547b958f94bab5b174953b12f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  country: {fileID: 55857986}
+  country: {fileID: 1902141796}
   pixelCoordinates: []
 --- !u!1 &356809410
 GameObject:
@@ -2981,7 +2928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6fb8547b958f94bab5b174953b12f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  country: {fileID: 537873054}
+  country: {fileID: 1902141796}
   pixelCoordinates: []
 --- !u!1 &477578929
 GameObject:
@@ -3074,7 +3021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6fb8547b958f94bab5b174953b12f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  country: {fileID: 55857986}
+  country: {fileID: 1902141796}
   pixelCoordinates: []
 --- !u!1 &489546275
 GameObject:
@@ -3410,8 +3357,8 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   countries:
-  - {fileID: 55857986}
-  - {fileID: 537873054}
+  - {fileID: 1902141796}
+  playerCountry: {fileID: 1902141796}
 --- !u!4 &521941956
 Transform:
   m_ObjectHideFlags: 0
@@ -3564,57 +3511,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &537873052
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 537873053}
-  - component: {fileID: 537873054}
-  m_Layer: 0
-  m_Name: Sudland Kingdom
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &537873053
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 537873052}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 979620879}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &537873054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 537873052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 720f5761b4299bf459e61303e82f4313, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  countryName: Kingdom of Sudland
-  countryColor:
-    serializedVersion: 2
-    rgba: 4286274320
-  countryDescription: Founded 24 years ago during the Treaty of Acrevalt, when the
-    Duchies of East and West Sudland unified. They have been fighting for 4 long
-    years to unite the island and reform the Daardval Empire.
 --- !u!1 &546298288
 GameObject:
   m_ObjectHideFlags: 0
@@ -4740,7 +4636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6fb8547b958f94bab5b174953b12f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  country: {fileID: 55857986}
+  country: {fileID: 1902141796}
   pixelCoordinates: []
 --- !u!1 &696926669
 GameObject:
@@ -6365,8 +6261,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 55857985}
-  - {fileID: 537873053}
+  - {fileID: 1902141795}
   m_Father: {fileID: 521941956}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &992349711
@@ -8646,7 +8541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1649895720
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9816,6 +9711,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1885224368}
   m_CullTransparentMesh: 1
+--- !u!1 &1902141794
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1902141795}
+  - component: {fileID: 1902141796}
+  m_Layer: 0
+  m_Name: Daardval Federation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1902141795
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902141794}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 979620879}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1902141796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902141794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 720f5761b4299bf459e61303e82f4313, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  countryName: Daardval Federation
+  countryColor:
+    serializedVersion: 2
+    rgba: 4278230505
+  countryDescription: Formed after the Northern Union's victory during the Daardval
+    war, the state is a loose federation of all five Daardvali provinces.
 --- !u!4 &1905831086 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8017832725205602886, guid: 2ab290fbafc975749bd629397f94d5e4, type: 3}
@@ -9869,7 +9814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6fb8547b958f94bab5b174953b12f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  country: {fileID: 537873054}
+  country: {fileID: 1902141796}
   pixelCoordinates: []
 --- !u!4 &1943135398 stripped
 Transform:

@@ -12,6 +12,8 @@ public class Pop : MonoBehaviour
     [SerializeField]
     int popMoney = 20;
 
+    int moneySpentOnTaxes = 0;
+    int moneySpentOnEssentials = 0;
     int costOfLiving = 5; // Money spent on essentials each consumption cycle
 
     Dictionary<GoodSO, ConcreteGood> goodsOwned = new Dictionary<GoodSO, ConcreteGood>();
@@ -70,7 +72,7 @@ public class Pop : MonoBehaviour
         // If the good is essential or for production, add its price to the cost of living
         if (good.GetGoodType().IsEssentialGood() || good.GetGoodType().IsProductionGood())
         {
-            costOfLiving += good.GetPrice();
+            moneySpentOnEssentials += good.GetPrice();
         }
 
         AddToLog($"{popName} purchased {good.GetName()} for {good.GetPrice()} from {(good.GetOwner() != null ? good.GetOwner().GetPopName() : "null")}");
@@ -115,6 +117,23 @@ public class Pop : MonoBehaviour
             UseSubsistenceGood();
     }
 
+    public int PayTaxes(int taxAmount)
+    {
+        int taxesPaid;
+        if (taxAmount > popMoney)
+        {
+            // If tax amount is more than pop money, pay all money
+            taxAmount = popMoney;
+            taxesPaid = popMoney;
+            popMoney = 0;
+        }
+        else
+        {
+            popMoney -= taxAmount;
+            taxesPaid = taxAmount;
+        }
+        return taxesPaid;
+    }
     public void AddToLog(string entry)
     {
         string timestamp = $"[{MarketManager.instance.GetMarketTickNumber()}] ";
@@ -126,7 +145,13 @@ public class Pop : MonoBehaviour
     }
     public void ResetCostOfLiving()
     {
-        costOfLiving = 5;
+        costOfLiving = moneySpentOnEssentials + moneySpentOnTaxes;
+        moneySpentOnEssentials = 0;
+
+        if (costOfLiving <= 0)
+        {
+            costOfLiving = 3;
+        }
     }
     public int GetMoney() => popMoney;
     public int GetCostOfLiving() => costOfLiving > 0 ? costOfLiving : 1;
