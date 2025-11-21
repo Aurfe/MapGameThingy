@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Site_Clothiers
   m_EditorClassIdentifier: 
   productionMethod: {fileID: 11400000, guid: 9b28bd1920141064b818dbce12b10743, type: 2}
+  siteType: 2

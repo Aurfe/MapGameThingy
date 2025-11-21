@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Site_Farms
   m_EditorClassIdentifier: 
   productionMethod: {fileID: 11400000, guid: 289b089156da9e648b23fdccb43258d6, type: 2}
+  siteType: 1

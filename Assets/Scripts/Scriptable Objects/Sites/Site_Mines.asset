@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Site_Mines
   m_EditorClassIdentifier: 
   productionMethod: {fileID: 11400000, guid: c9f41cdcc2fd1f2468e70fe18d0ee9b3, type: 2}
+  siteType: 1

@@ -7,4 +7,16 @@ public class SiteSO : ScriptableObject
     ProductionMethod productionMethod;
 
     public ProductionMethod GetProductionMethod() => productionMethod;
+
+    [SerializeField]
+    SiteType siteType;
+
+    public SiteType GetSiteType() => siteType;
+}
+
+public enum SiteType
+{
+    Wild,
+    Rural,
+    Urban
 }
