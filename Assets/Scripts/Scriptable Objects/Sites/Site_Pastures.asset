@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc4782cb38fc91d438672dac8ed2e35c, type: 3}
   m_Name: Site_Pastures
   m_EditorClassIdentifier: 
+  siteName: Pastures
   productionMethod: {fileID: 11400000, guid: 53119702dd8ddc846b8d1c1144f40761, type: 2}
   siteType: 1
