@@ -43,6 +43,11 @@ public class ConcreteSite : MonoBehaviour
     //Produce Goods based on the site's production method and add them to the market
     public virtual void ProduceGood(Market market)
     {
+        if (sitePop == null)
+        {
+            return;
+        }
+
         ProductionMethod productionMethod = siteData.GetProductionMethod();
         int productionBonus = CalculateProductionBonus();
 
@@ -172,5 +177,10 @@ public class ConcreteSite : MonoBehaviour
     public bool IsSiteType(SiteType siteType)
     {
         return siteData.GetSiteType() == siteType;
+    }
+
+    public SiteSO GetSiteData()
+    {
+        return siteData;
     }
 }
