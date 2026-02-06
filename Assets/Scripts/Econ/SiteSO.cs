@@ -4,9 +4,6 @@ using UnityEngine;
 public class SiteSO : ScriptableObject
 {
     [SerializeField]
-    string siteName;
-
-    [SerializeField]
     ProductionMethod productionMethod;
 
     public ProductionMethod GetProductionMethod() => productionMethod;
@@ -15,7 +12,6 @@ public class SiteSO : ScriptableObject
     SiteType siteType;
 
     public SiteType GetSiteType() => siteType;
-    public string GetSiteName() => siteName;
 }
 
 public enum SiteType

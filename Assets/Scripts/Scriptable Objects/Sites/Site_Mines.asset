@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc4782cb38fc91d438672dac8ed2e35c, type: 3}
   m_Name: Site_Mines
   m_EditorClassIdentifier: 
-  siteName: Mines
   productionMethod: {fileID: 11400000, guid: c9f41cdcc2fd1f2468e70fe18d0ee9b3, type: 2}
   siteType: 1

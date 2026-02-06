@@ -6,6 +6,4 @@ using UnityEngine;
 public class WildSiteSO : SiteSO
 {
     [SerializeField] List<SiteSO> possibleSites;
-
-    public List<SiteSO> GetPossibleSites() => possibleSites;
 }

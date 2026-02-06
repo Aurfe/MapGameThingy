@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc4782cb38fc91d438672dac8ed2e35c, type: 3}
   m_Name: Site_Weavers
   m_EditorClassIdentifier: 
-  siteName: Weavers
   productionMethod: {fileID: 11400000, guid: c6509c3c35fd7c24681c58566352d621, type: 2}
   siteType: 2
