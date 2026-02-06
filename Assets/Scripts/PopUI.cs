@@ -13,8 +13,6 @@ public class PopUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI toolsGoodIcon;
     [SerializeField] TextMeshProUGUI clothesGoodIcon;
 
-    [SerializeField] GameObject moneyDonationPanelPrefab;
-
     Pop sitePop;
 
     public void SetUI(Pop pop)
@@ -59,17 +57,5 @@ public class PopUI : MonoBehaviour
     {
         PopLogUI.Instance.OpenPopLog();
         PopLogUI.Instance.SetPopLog(sitePop);
-    }
-
-    public void OpenMoneyDonationPanel()
-    {
-        Canvas canvas = GetComponentInParent<Canvas>();
-
-        GameObject obj = Instantiate(moneyDonationPanelPrefab, new Vector3(transform.position.x, transform.position.y), transform.rotation);
-        obj.transform.SetParent(canvas.transform, false);
-
-        GivePopMoneyUI moneyUI = obj.GetComponent<GivePopMoneyUI>();
-
-        moneyUI.OpenUI(sitePop);
     }
 }
