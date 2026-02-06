@@ -76,24 +76,6 @@ public class ProvinceUI : MonoBehaviour, IManageable
         }
     }
 
-    public void GenerateSiteListUI(SiteTypeBus siteTypeBus)
-    {
-        SiteType siteType = siteTypeBus.siteType;
-
-        ClearListUI(siteListContent);
-
-        Province province = ProvinceManager.Instance.GetSelectedProvince();
-
-        foreach (ConcreteSite site in province.GetSiteList())
-        {
-            if (site.IsSiteType(siteType))
-            {
-                Transform siteItem = Instantiate(siteItemPrefab, siteListContent);
-                siteItem.gameObject.GetComponent<SiteUI>().SetSiteUI(site);
-            }
-        }
-    }
-
     private void GeneratePopListUI()
     {
         ClearListUI(popListContent);

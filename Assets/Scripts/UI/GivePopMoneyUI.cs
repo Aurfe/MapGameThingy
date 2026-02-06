@@ -47,7 +47,7 @@ public class GivePopMoneyUI : MonoBehaviour
         Country playerCountry = CountryManager.Instance.GetPlayerCountry();
         if (playerCountry.GetTreasury() >= currentMoneyToGive)
         {
-            playerCountry.AdjustTreasury(-currentMoneyToGive);
+            playerCountry.AddToTreasury(-currentMoneyToGive);
             pop.ChangeMoney(currentMoneyToGive);
         }
 

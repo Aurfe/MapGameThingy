@@ -16,7 +16,6 @@ public class CountryManager : SerializedMonoBehaviour
             return;
         }
         Instance = this;
-        Debug.Log(GetPlayerCountry().countryName);
     }
 
     [SerializeField] Country playerCountry;

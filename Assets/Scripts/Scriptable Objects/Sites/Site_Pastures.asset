@@ -13,4 +13,3 @@ MonoBehaviour:
   m_Name: Site_Pastures
   m_EditorClassIdentifier: 
   productionMethod: {fileID: 11400000, guid: 53119702dd8ddc846b8d1c1144f40761, type: 2}
-  siteType: 1

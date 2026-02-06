@@ -77,7 +77,7 @@ public class Province : MonoBehaviour
         {
             totalTaxRevenue += pop.PayTaxes(taxRate); ;
         }
-        country.AdjustTreasury(totalTaxRevenue);
+        country.AddToTreasury(totalTaxRevenue);
         return totalTaxRevenue;
     }
 

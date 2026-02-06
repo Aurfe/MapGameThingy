@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Country : MonoBehaviour
 {
-    public event EventHandler OnTreasuryChanged;
-
     public string countryName;
 
     public Color32 countryColor;
@@ -53,10 +51,9 @@ public class Country : MonoBehaviour
         return treasury;
     }
 
-    public void AdjustTreasury(int amount)
+    public void AddToTreasury(int amount)
     {
         treasury += amount;
-        OnTreasuryChanged?.Invoke(this, EventArgs.Empty);
     }
     private void MarketManager_OnMarketUpdate(object sender, EventArgs e)
     {

@@ -168,9 +168,4 @@ public class ConcreteSite : MonoBehaviour
 
         return 0;
     }
-
-    public bool IsSiteType(SiteType siteType)
-    {
-        return siteData.GetSiteType() == siteType;
-    }
 }
