@@ -147,7 +147,6 @@ GameObject:
   - component: {fileID: 5544715714240588354}
   - component: {fileID: 2643438010744141827}
   - component: {fileID: 6507595768661355246}
-  - component: {fileID: 1421179750474222339}
   m_Layer: 5
   m_Name: Possible Development UI
   m_TagString: Untagged
@@ -172,9 +171,9 @@ RectTransform:
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 383.40002, y: 296.6}
-  m_SizeDelta: {x: 120.021484, y: 19.899109}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -226.09998, y: -5.899994}
+  m_SizeDelta: {x: -1098.9785, y: -585.1009}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2643438010744141827
 CanvasRenderer:
@@ -214,19 +213,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1421179750474222339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5808917836130911351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3330f055c9cd651499f1e3b37f74a9d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  siteNameText: {fileID: 2348698192727175445}
 --- !u!1 &6582554772960884932
 GameObject:
   m_ObjectHideFlags: 0

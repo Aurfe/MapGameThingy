@@ -10,7 +10,6 @@ public class SiteUI : MonoBehaviour
     [SerializeField]
     GameObject siteDevButton;
 
-    ConcreteSite currentSite;
     public void SetSiteUI(ConcreteSite site)
     {
         siteNameTag.text = site.GetName();
@@ -18,7 +17,6 @@ public class SiteUI : MonoBehaviour
         if (site.IsSiteType(SiteType.Wild))
         {
             siteDevButton.SetActive(true);
-            currentSite = site;
         }
     }
 
@@ -28,7 +26,5 @@ public class SiteUI : MonoBehaviour
 
         GameObject obj = Instantiate(developmentPanelPrefab, new Vector3(transform.position.x, transform.position.y), transform.rotation);
         obj.transform.SetParent(canvas.transform, false);
-
-        obj.GetComponent<DevelopSiteUI>().SetPanel((WildSiteSO)currentSite.GetSiteData());
     }
 }
